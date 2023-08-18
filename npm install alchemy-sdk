@@ -1,0 +1,27 @@
+Setup
+import { Network, Alchemy } from 'alchemy-sdk';
+
+const settings = {
+    apiKey: "iC_6zZnsLsTk4UZGjgur2GxUohgRUmb8",
+    network: Network.ETH_MAINNET,
+};
+
+const alchemy = new Alchemy(settings);
+
+// Get the latest block
+const latestBlock = alchemy.core.getBlockNumber();
+
+// Get all outbound transfers for a provided address
+alchemy.core
+    .getTokenBalances('0x20fE9F5896A3021Ca6eA78005a15AE954dC134E6')
+    .then(console.log);
+
+// Get all the NFTs owned by an address
+const nfts = alchemy.nft.getNftsForOwner("vitalik.eth");
+
+// Listen to all new pending transactions
+alchemy.ws.on(
+    { method: "alchemy_pendingTransactions",
+    fromAddress: "vitalik.eth" },
+    (res) => console.log(res)
+);
